@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{%  block main %}
+
+    <div class="example-wrapper">
+        {{ form_start(habitForm) }}
+        {{ form_row(habitForm.name) }}
+        {{ form_row(habitForm.description) }}
+        {{ form_row(habitForm.freq) }}
+        {{ form_row(habitForm.interval) }}
+        {{ form_row(habitForm.count) }}
+        {#        {{ form_row(habitForm.recurrence) }}#}
+        {#        {{ form_row(goalForm.public) }}#}
+        {#        <h3>Add a milestone metric for your goal</h3>#}
+        {#        <ul class="milestones" data-prototype="{{ form_widget(goalForm.milestones.vars.prototype)|e('html_attr') }}">#}
+        {#            {% for m in goalForm.milestones %}#}
+        {#                <li>{{ form_row(m) }}</li>#}
+        {#                #}{#                    <li>{{ form_row(m.description) }}</li>#}
+        {#            {% endfor %}#}
+        {#        </ul>#}
+        <div class="form-group row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-10">
+                <input type="submit" value="Send" class="btn btn-success"/>
+            </div>
+        </div>
+        {{ form_end(habitForm) }}
+    </div>
+    {#        {{ form_end(habitForm) }}#}
+{%  endblock %}

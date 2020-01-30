@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DashboardController!{% endblock %}
+
+{% block main %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Hello {{ name }}! ✅</h1>
+</div>
+
+    <div class="example-wrapper">
+        <a href="{{ path('add_purpose') }}">Add Purpose</a>
+    </div>
+
+    <div class="example-wrapper">
+        <a href="{{ path('show_purpose') }}">Show Purpose</a>
+    </div>
+
+    <div class="example-wrapper">
+        <a href="{{ path('show_goals') }}">Show your Goals</a>
+    </div>
+
+    <div class="example-wrapper">
+        <a href="{{ path('view_public') }}">Show Everyone's Goals</a>
+    </div>
+
+{#    <div class="example-wrapper">#}
+{#        {{ form_start(purposeForm) }}#}
+{#        {{ form_label(purposeForm.description, 'Enter your purpose here', {'label_attr': {'class':'foo'}}) }}#}
+{#        {{  form_widget(purposeForm) }}#}
+{#        {{ form_widget(purposeForm.description, {'attr': {'class': 'description'}}) }}#}
+{#        <div class="form-group row">#}
+{#            <div class="col-sm-2"></div>#}
+{#            <div class="col-sm-10">#}
+{#                <input type="submit" value="Send" class="btn btn-success"/>#}
+{#            </div>#}
+{#        </div>#}
+{#        {{ form_end(purposeForm) }}#}
+{#    </div>#}
+
+{#    <table>#}
+{#        <tr>#}
+{#            <th>id</th><th>Purpose</th>#}
+{#        </tr>#}
+{#        {% if results|length > 0%}#}
+{#            {% for item in results %}#}
+{#                <tr>#}
+{#                    <td>{{ item.getId }}</td><td>{{ item.getDescription }}</td>#}
+{#                </tr>#}
+{#            {% endfor %}#}
+{#        {% else %}#}
+{#            <tr>#}
+{#                <td colspan="2">No matching results found!</td>#}
+{#            </tr>#}
+{#        {% endif %}#}
+{#    </table>#}
+
+
+{#    {{ include('dashboard/display_purpose.html.twig') }}#}
+
+{% endblock %}
+
+{#{% block display %} {% endblock %}#}
+

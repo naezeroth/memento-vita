@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+{% block title %} Custom Title {% endblock %}
+
+{% block main %}
+{#    {{ dump() }}#}
+{#    Hello {{ app.request.query.get('name') | default('Apurva!')}}#}
+{#    My lovely variable: {{ some_variable | default("The variable wasn't set") }}#}
+    <p>Hello {{ name }}!</p>
+{% endblock %}

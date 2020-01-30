@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{% block title %}Goal Tracker{% endblock %}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css"
+          integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy"
+          crossorigin="anonymous">
+{#    <link rel="stylesheet" href="{{ asset('css/app.css') }}"/>#}
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+</head>
+
+<body>
+<header>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <div class="container">
+
+            <a class="navbar-brand" href="{{path('welcome')}}">Home</a>
+
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav mr-auto">
+{#                    <li class="nav-item">#}
+{#                        <a class="nav-link" href="{{path('hello_page')}}">Hello Page</a>#}
+{#                    </li>#}
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('dashboard') }}">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_logout') }}">Logout</a>
+                        </li>
+                    {%  else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_login') }}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_register') }}">Register</a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('contact') }}">Contact Us!</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </nav>
+</header>
+
+<main role="main" class="container main">
+    {% include 'flash_messages.html.twig' %}
+    {% block main %}{% endblock main %}
+</main>
+{#<script#}
+{#        src="https://code.jquery.com/jquery-2.2.4.min.js"#}
+{#        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="#}
+{#        crossorigin="anonymous"></script>#}
+{#<script src="{{ asset('bundles/app/js/app.js') }}"></script>#}
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+{% endblock %}
+</body>
+</html>
