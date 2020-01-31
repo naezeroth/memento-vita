@@ -1,23 +1,66 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_1.html.twig' %}
 
 {%  block main %}
 
-    <table>
-        <tr>
-            <th>id</th><th>Goal</th>
-        </tr>
-        {% if results|length > 0%}
-            {% for item in results %}
-                <tr>
-                    <td>{{ item.getId }}</td><td>{{ item.getDescription }}</td><td><a href="{{ path('add_habit', {'id': item.getId}) }}"><button class="btn" >Add Habit</button></a></td>
-                </tr>
-            {% endfor %}
-        {% else %}
-            <tr>
-                <td colspan="2">No matching results found!</td>
-            </tr>
-        {% endif %}
-    </table>
+{#    <table>#}
+{#        <tr>#}
+{#            <th>id</th><th>Goal</th>#}
+{#        </tr>#}
+{#        {% if results|length > 0%}#}
+{#            {% for item in results %}#}
+{#                <tr>#}
+{#                    <td>{{ item.getId }}</td><td>{{ item.getDescription }}</td><td><a href="{{ path('add_habit', {'id': item.getId}) }}"><button class="btn" >Add Habit</button></a></td>#}
+{#                </tr>#}
+{#            {% endfor %}#}
+{#        {% else %}#}
+{#            <tr>#}
+{#                <td colspan="2">No matching results found!</td>#}
+{#            </tr>#}
+{#        {% endif %}#}
+{#    </table>#}
+
+    <h2>Your Goals</h2>
+{#    <a href="{{ path('add_goal') }}"><button class="btn btn-success" >Add Goal</button></a>#}
+    <br>
+    {% set r = results|batch(3) %}
+    {#    {{ dump(r) }}#}
+
+    {% for atom in r %}
+
+    {# Set class using the loop index from outer loop #}
+    {% set panelClass = 'panel--' ~ loop.index %}
+
+    {#        <div class="panel {{ panelClass }}">#}
+    <div class="card-deck">
+        {% for entry in atom %}
+            <div class="card">
+                {#                    <img src="https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg" class="card-img-top" alt="...">#}
+                <div class="card-body">
+                    <h5 class="card-title">{{ entry.name }}</h5>
+                    <p class="card-text"> {{  entry.description }} </p>
+                    <p class="card-text"> {{  entry.purpose.description }} </p>
+                    {% if entry.milestones != null %}
+                        {% for m in entry.milestones %}
+                            <ol>
+                                <a class="card-text"> - {{  m.description }} </a>
+                                <a class="card-text"> to be accomplished by {{ m.endDate |date('Y-m-d') }} </a>
+                            </ol>
+
+                        {% endfor %}
+                    {% endif %}
+                    <a href="{{ path('edit_goal', {'id': entry.getId}) }}"><button class="btn btn-primary" >Edit Goal</button></a>
+{#                    <a href="{{ path('add_habit', {'id': entry.getId}) }}"><button class="btn btn-warning" >Add Habit</button></a>#}
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Last updated 3 mins ago</small>
+                    {#                        <small class="text-muted">Last updated {{ entry.startDate }}</small>#}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <br>
+    {% endfor %}
+    <a href="{{ path('add_goal') }}"><button class="btn btn-success" >Add Goal</button></a>
 
 {%  endblock %}
 

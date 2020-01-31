@@ -1,0 +1,43 @@
+{% extends 'base_1.html.twig' %}
+
+{%  block main %}
+
+    <h2>Your Habits</h2>
+    <br>
+    {% set r = results|batch(3) %}
+
+    {% for atom in r %}
+
+        {% set panelClass = 'panel--' ~ loop.index %}
+
+        <div class="card-deck">
+            {% for entry in atom %}
+                <div class="card">
+                    {#                    <img src="https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg" class="card-img-top" alt="...">#}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ entry.name }}</h5>
+                        <p class="card-text"> {{  entry.description }} </p>
+                        <p class="card-text"> For goal: {{  entry.goal.name }} </p>
+{#                        {{ dump(entry.count) }}#}
+                        {% for i in range(0,entry.count-1) %}
+                            <p class="card-text"> For date: {{ entry.getRecurrenceCollection[i] |date('Y-m-d')}}
+                            {% if entry.done[i] == 1 %}
+                                is done ✅
+                            {% else %}
+                                is not done ❌
+                            {% endif %}
+                            </p>
+                        {% endfor %}
+                        <a href="{{ path('edit_habit', {'id': entry.getId}) }}"><button class="btn btn-primary" >Edit Habit</button></a>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">Last updated 3 mins ago</small>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <br>
+    {% endfor %}
+    <a href="{{ path('add_habit') }}"><button class="btn btn-success" >Add Habit</button></a>
+
+{%  endblock %}

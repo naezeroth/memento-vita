@@ -24,6 +24,7 @@ class GoalFormType extends AbstractType
             ])
             ->add('endDate',  DateType::class, [
                 'label' => 'When do you want to accomplish this by?',
+                'years' => range(date("Y"), date("Y")+10)
             ])
             ->add('public', CheckboxType::class, [
                 'label' => 'Do you wish for this goal to be publicly viewable?',
@@ -37,7 +38,8 @@ class GoalFormType extends AbstractType
                 'allow_add' => true,
                 // self explanatory, this one allows the form to be removed
                 'allow_delete' => true,
-                'label' => 'Add a milestone metric for your goal'
+//                'label' => 'Add a milestone metric for your goal'
+                'label' => false
             ])
         ;
     }

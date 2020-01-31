@@ -1,28 +1,61 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_1.html.twig' %}
 
 {%  block main %}
 {#    {{ dump(results) }}#}
     <table>
-        <tr>
-            <th>User</th><th>Goal</th><th>Description</th>
-        </tr>
-        {% if results|length > 0%}
+{#        <tr>#}
+{#            <th>User</th><th>Goal</th><th>Description</th>#}
+{#        </tr>#}
+{#        {% if results|length > 0%}#}
 
-            {% for item in results %}
+{#            {% for item in results %}#}
 {#                {{ dump(item) }}#}
-                <tr>
-                    <td>{{ item.userBelongsTo.username }}</td>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.description }}</td>
+{#                <tr>#}
+{#                    <td>{{ item.userBelongsTo.username }}</td>#}
+{#                    <td>{{ item.name }}</td>#}
+{#                    <td>{{ item.description }}</td>#}
 {#                    <td>{{ item.name }}</td><td>{{ item.goal }}</td>#}
 {#                    <td><a href="{{ path('add_goal', {'id': item.getId}) }}"><button class="btn" >Add Goal</button></a></td>#}
-                </tr>
-            {% endfor %}
-        {% else %}
-            <tr>
-                <td colspan="2">No matching results found!</td>
-            </tr>
-        {% endif %}
+{#                </tr>#}
+{#            {% endfor %}#}
+{#        {% else %}#}
+{#            <tr>#}
+{#                <td colspan="2">No matching results found!</td>#}
+{#            </tr>#}
+{#        {% endif %}#}
+
+        <h2>What others around you are focusing on</h2>
+        <br>
+        {% set r = results|batch(3) %}
+        {#    {{ dump(r) }}#}
+
+        {% for atom in r %}
+
+            {# Set class using the loop index from outer loop #}
+            {% set panelClass = 'panel--' ~ loop.index %}
+
+            {#        <div class="panel {{ panelClass }}">#}
+            <div class="card-deck">
+                {% for entry in atom %}
+                    <div class="card">
+                        {#                    <img src="https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg" class="card-img-top" alt="...">#}
+                        <div class="card-body">
+                            <h4 class="card-title">{{ entry.userBelongsTo.username }}</h4>
+                            <h5 class="card-title">{{ entry.name }}</h5>
+                            <p class="card-text"> {{  entry.description }} </p>
+{#                            {% for i in 0..10 %}#}
+                            <p class="card-text"> {{  entry.purpose.description }} </p>
+
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">Last updated 3 mins ago</small>
+                            {#                        <small class="text-muted">Last updated {{ entry.startDate }}</small>#}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <br>
+        {% endfor %}
     </table>
 
 {%  endblock %}
