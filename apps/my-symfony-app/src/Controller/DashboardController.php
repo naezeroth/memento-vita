@@ -393,15 +393,49 @@ class DashboardController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $tempResult = $em->getRepository(Habit::class)->findBy(array('userBelongsTo' => $security->getUser()));
         $result = array();
+//        $recurrenceResult = array();
         foreach($tempResult as $r){
             if($r->getGoal()->getPurpose()->getActive()){ //Violation of Law of Demeter (refactor required)
                 array_push($result, $r);
+//                array_push($recurrenceResult, $r->getRecurrenceCollection());
             }
         }
 
         return $this->render('dashboard/display_habits.html.twig', [
-            'results' => $result
+            'results' => $result,
+//            'recurrenceResult' => $recurrenceResult
         ]);
     }
+
+    /**
+     * @param Request $request
+     * @param Security $security
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route("/tracker", name="show_tracker")
+     */
+    public function displayTracker(Request $request, Security $security){
+        $em = $this->getDoctrine()->getManager();
+        $tempResult = $em->getRepository(Habit::class)->findBy(array('userBelongsTo' => $security->getUser()));
+        $result = array();
+        $recurrenceResult = array();
+        foreach($tempResult as $r){
+            if($r->getGoal()->getPurpose()->getActive()){ //Violation of Law of Demeter (refactor required)
+                array_push($result, $r);
+                array_push($recurrenceResult, $r->getRecurrenceCollection());
+            }
+        }
+//        foreach($result as $r){
+//            var_dump($r);
+//            var_dump($r->getRecurrenceCollection());
+//            var_dump($r->getDone());
+//        }
+
+        return $this->render('dashboard/display_tracker.html.twig', [
+            'results' => $result,
+            'recurrenceResult' => $recurrenceResult
+        ]);
+    }
+
+
 }
 

@@ -11,7 +11,7 @@ use Recurr\Transformer\ArrayTransformerConfig;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\HabitRepository")
  */
-class Habit
+class Habit implements \JsonSerializable
 {
     private static $frequencyList = array(0 => 'DAILY', 1 => 'WEEKLY', 2 => 'MONTHLY', 3 => 'YEARLY');
     private static $weekDays = array(0 => 'SU', 1 => 'MO', 2 => 'TU', 3 => 'WE', 4 => 'TH', 5 => 'FR', 6 => 'SA');
@@ -429,4 +429,11 @@ class Habit
         return $result;
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
+    }
 }

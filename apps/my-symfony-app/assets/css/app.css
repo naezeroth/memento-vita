@@ -135,3 +135,12 @@ ul ul a {
     width: 100%;
     left: 0;
 }
+/*https://stackoverflow.com/questions/32862394/bootstrap-modals-keep-adding-padding-right-to-body-after-closed*/
+body:not(.modal-open){
+    padding-right: 0px !important;
+}
+
+.modal-open {
+    overflow: inherit;
+    padding-right: 0 !important;
+}
