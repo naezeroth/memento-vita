@@ -116,61 +116,61 @@
 
 {% block javascripts %}
     <script>
+        habits = {{ results|json_encode|raw }};
         today = new Date();
         currentMonth = today.getMonth();
         currentYear = today.getFullYear();
         selectYear = $('#year'); //document.getElementById("year");
         selectMonth = $('#month'); //document.getElementById("month");
+        dateObject = {};
 
         months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
         monthAndYear = $('#monthAndYear'); //document.getElementById("monthAndYear");
 
-        // showCalendar(currentMonth, currentYear);
-
-        function CreateTable() {
-            var employee = new Array();
-            employee.push([4, ".", "."]);
-            employee.push([5, ".", "."]);
-            employee.push([6, ".", "."]);
-            employee.push([7, ".", "."]);
-            employee.push([8, ".", "."]);
-
-            var tableheader ="";
-            tableheader +="<tr>";
-            tableheader += "<th>" + "Habit" + "</th>";
-            for(var i = 1; i < 32; i++){
-                tableheader += "<th>" + i.toString() + "</th>";
-            }
-            var tablecontents = "";
-            for (var i = 0; i < employee.length; i++) {
-                tablecontents += "<tr>";
-                for (var j = 0; j < employee[i].length; j++) {
-                    tablecontents += "<td>" + employee[i][j] + "</td>";
-                }
-                tablecontents += "</tr>";
-            }
-            // document.getElementById("id_tabela").innerHTML = tablecontents;
-            $("#mytableheader").append(tableheader);
-            // document.getElementById("mytablecontent").innerHTML += tablecontents;
-        }
         $(() => {
-            {#var data = $('.js-user-rating').data('entryResults');#}
-            {#console.log(data);#}
-            {#var data2 = {{ results | json_encode() }}#}
-            {#console.log(data2);#}
-            {#for(x in data2 ){#}
-            {#    console.log(x);#}
-            {#}#}
-
-            var habits = {{ results|json_encode|raw }};
+            {#var habits = {{ results|json_encode|raw }}; //Don't use data = $('.js-user-rating').data('entryResults')#}
             var recurrences = {{ recurrenceResult|json_encode|raw }}
                 console.log(habits);
-            console.log(habits[0].name);
-            console.log(recurrences[0][0].date);
-            var date = new Date(recurrences[0][0].date);
-            console.log(date);
+            // console.log(habits[0].name);
+            // console.log(recurrences[0][0].date);
+            // console.log(recurrences);
+
+            recurrences.forEach((item, idx) => { //Populates dateObject {'year':{'month': [date, date2 etc.]}}
+                //idx corresponds with habit order
+                if(!checkNested(dateObject, idx)){
+                    dateObject[idx] = {};
+                }
+                item.forEach((date) =>{
+                    var d = new Date(date.date);
+                    // console.log(d);
+                    // console.log(checkNested(dateObject, idx, d.getFullYear().toString(), d.getMonth().toString()));
+                    if(!checkNested(dateObject, idx, d.getFullYear().toString())){
+                        //Year does not exist
+                        dateObject[idx][d.getFullYear().toString()] = {};
+                    }
+                    if(!checkNested(dateObject, idx, d.getFullYear().toString(), d.getMonth().toString())){
+                        // console.log("false");
+                        // console.log(d.getMonth().toString());
+                        dateObject[idx][d.getFullYear().toString()][d.getMonth().toString()] = []
+                    }
+                    dateObject[idx][d.getFullYear().toString()][d.getMonth().toString()].push(d);
+                    // console.log(dateObject);
+                });
+                // console.log(new Date(item))
+            });
+
+            // var date = new Date(recurrences[0][0].date);
+            // console.log(date);
             showCalendar(currentMonth, currentYear);
+            // console.log(date.getTime());
+            // console.log(today.getTime());
+            showHabits(currentMonth, currentYear);
+
+            var test = {level1:{level2:{level3:'level3'}} };
+
+            console.log(checkNested(test, 'level1', 'level2', 'level3')); // true
+            console.log(checkNested(test, 'level1', 'level2', 'foo')); // false
         });
 
         function next() {
@@ -229,9 +229,82 @@
             tbl.append(row); // appending each row into calendar body.
         }
 
+        function showHabits(month, year){
+            let numOfDays = daysInMonth(month, year);
+            tbl = $('#mytablecontent');
+            let row = document.createElement("tr");
+            cell = document.createElement("td");
+
+            for (var key in dateObject) { //Loop through each habit
+                if(!dateObject.hasOwnProperty(key)) continue;
+
+                var obj = dateObject[key];
+                // console.log(habits[key].name);
+                cell = document.createElement("td");
+                cellText = document.createTextNode(habits[key].name);
+
+                cell.appendChild(cellText);
+                row.appendChild(cell);
+
+                var dateExists = {};
+
+                //Compare currentMonth currentYear with dateObject year date - if entries populate else don't.
+
+                // console.log("object is", obj);
+
+                if(checkNested(obj, currentYear, currentMonth)){ //Check if currentYear and currentMonth is a key
+                    obj[currentYear][currentMonth].forEach((date, idx) => {
+                        dateExists[date.getDate()] = idx;
+                        // console.log("test test", date); //Works!
+                        // cell = document.createElement("th");
+                        // cellText = document.createTextNode(date.getDate().toString());
+                        // cell.appendChild(cellText);
+                        // row.appendChild(cell);
+                    });
+                    console.log(dateExists);
+                    console.log(numOfDays);
+                    // console.log("test");
+                    // for(var i = 0; i < numOfDays; i++){
+                    //     console.log(i);
+                    // }
+                    for (let j = 0; j < numOfDays; j++) {
+                        console.log("test");
+                        cell = document.createElement("td");
+                        cellText = document.createTextNode("");
+                        if (dateExists.hasOwnProperty(j)) {
+                            if(habits[key].done[dateExists[j]]){
+                                cellText = document.createTextNode("✅");
+                            }
+                            else{
+                                cellText = document.createTextNode("❌");
+                            }
+                            // cell.classList.add("bg-info");
+                        } // color today's date
+                        else{
+                            cell.classList.add("bg-secondary");
+                        }
+                        cell.appendChild(cellText);
+                        row.appendChild(cell);
+                        console.log(row);
+                    }
+
+                }
+                tbl.append(row);
+                row = document.createElement("tr"); //Create new row
+            }
+            // tbl.append(row);
+
+            //for each habit loop over see if a match in month, then populate X for dates - create row nonetheless
+        }
         // check how many days in a month code from https://dzone.com/articles/determining-number-days-month
         function daysInMonth(iMonth, iYear) {
             return 32 - new Date(iYear, iMonth, 32).getDate();
+        }
+
+        function checkNested(obj, level,  ...rest) {
+            if (obj === undefined) return false
+            if (rest.length == 0 && obj.hasOwnProperty(level)) return true
+            return checkNested(obj[level], ...rest)
         }
 
     </script>

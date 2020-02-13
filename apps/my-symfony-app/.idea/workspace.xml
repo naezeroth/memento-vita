@@ -147,7 +147,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/templates/dashboard" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+    <property name="settings.editor.selected.configurable" value="terminal" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -176,6 +176,9 @@
       <workItem from="1567467627789" duration="28534000" />
       <workItem from="1580855939722" duration="10456000" />
       <workItem from="1580963733785" duration="25293000" />
+      <workItem from="1581485874760" duration="6122000" />
+      <workItem from="1581580659293" duration="15000" />
+      <workItem from="1581580709829" duration="6539000" />
     </task>
     <servers />
   </component>
@@ -196,22 +199,22 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
-    <state x="179" y="185" key="SettingsEditor" timestamp="1580964358352">
+    <state x="179" y="185" key="SettingsEditor" timestamp="1581581045165">
       <screen x="0" y="0" width="1500" height="960" />
     </state>
-    <state x="179" y="185" key="SettingsEditor/0.0.1500.960@0.0.1500.960" timestamp="1580964358352" />
-    <state x="451" y="306" key="com.intellij.ide.util.TipDialog" timestamp="1580963814135">
+    <state x="179" y="185" key="SettingsEditor/0.0.1500.960@0.0.1500.960" timestamp="1581581045165" />
+    <state x="451" y="306" key="com.intellij.ide.util.TipDialog" timestamp="1581580711306">
       <screen x="0" y="0" width="1500" height="960" />
     </state>
-    <state x="451" y="306" key="com.intellij.ide.util.TipDialog/0.0.1500.960@0.0.1500.960" timestamp="1580963814135" />
+    <state x="451" y="306" key="com.intellij.ide.util.TipDialog/0.0.1500.960@0.0.1500.960" timestamp="1581580711306" />
     <state x="443" y="77" width="613" height="804" key="find.popup" timestamp="1580894349252">
       <screen x="0" y="0" width="1500" height="960" />
     </state>
     <state x="443" y="77" width="613" height="804" key="find.popup/0.0.1500.960@0.0.1500.960" timestamp="1580894349252" />
-    <state x="410" y="223" key="run.anything.popup" timestamp="1580879559905">
+    <state x="414" y="227" key="run.anything.popup" timestamp="1581580864415">
       <screen x="0" y="0" width="1500" height="960" />
     </state>
-    <state x="410" y="223" key="run.anything.popup/0.0.1500.960@0.0.1500.960" timestamp="1580879559905" />
+    <state x="414" y="227" key="run.anything.popup/0.0.1500.960@0.0.1500.960" timestamp="1581580864415" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
