@@ -160,6 +160,16 @@ class Habit implements \JsonSerializable
         return $this;
     }
 
+    public function setSpecificDone($recurrenceID, $bool): self
+    {
+
+        $temp = $this->done;
+        $temp[$recurrenceID] = boolval($bool);
+        $this->done = $temp;
+
+        return $this;
+    }
+
     public function getUserBelongsTo(): ?User
     {
         return $this->userBelongsTo;

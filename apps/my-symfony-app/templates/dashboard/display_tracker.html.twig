@@ -1,46 +1,18 @@
 {% extends 'base_1.html.twig' %}
 
 {%  block main %}
-{#    {{ dump(results) }}#}
-
-{#    <div class="card">#}
-        <h3 class="card-header" id="monthAndYear">
-        </h3>
+    <div id="ajax-results"></div>
+    <h3 class="card-header" id="monthAndYear"></h3>
 {#        <button onclick="CreateTable()">Extend</button>#}
-        <table class="table">
-            <thead id="mytableheader">
-{#                <tr>#}
-{#                    <th id="showYear">YEAR</th>#}
-{#                    <th id="showMonth">MONTH</th>#}
-{#                    <th colspan="31">JAN FEB MAR APR MAY JUN JUL AUG SEP OCT NOV DEC</th>#}
-{#                </tr>#}
-            </thead>
-            <tbody id="mytablecontent">
-{#            {% set r = results|batch(3) %}#}
-{#            {% dump(results) %}#}
-            {% dump(results|json_encode()) %}
-            {% for r in results %}
-{#                {% array_push(recurrenceArray, r.getRecurrenceCollection()) %}#}
-{#                {% dump(r) %}#}
-{#                {% dump(r|json_encode()) %}#}
-{#                {% dump(r.getRecurrenceCollection()) %}#}
-{#                {% dump(r.getName()) %}#}
-{#                {% dump(r.getDone()) %}#}
-            {% endfor %}
-            {% dump(recurrenceResult) %}
-{#            {% dump(r) %}#}
-{#                {% for atom in r %}#}
-{#                    {% dump(atom) %}#}
-{#                    {% for entry in atom %}#}
-{#                        {%  dump(entry) %}#}
-{#                        <tr>#}
-{#                            <td>{{ entry.name }}</td>#}
-{#                        </tr>#}
-{#                    {% endfor %}#}
-{#                {% endfor %}#}
-            </tbody>
-        </table>
-{#    </div>#}
+    <button class="btn btn-outline-primary col-sm-6" id="previous" onclick="toggleHalfMonth()">Toggle Month</button>
+    <table class="table">
+        <thead id="mytableheader">
+{#            Will have HABIT, and all dates of that month#}
+        </thead>
+        <tbody id="mytablecontent">
+{#            Will have HABIT NAME and then ticks/crosses for each recurrence date#}
+        </tbody>
+    </table>
 
     <div class="form-inline">
         <button class="btn btn-outline-primary col-sm-6" id="previous" onclick="previous()">Previous</button>
@@ -81,37 +53,6 @@
         </select>
     </form>
 
-    {% set r = results|batch(3) %}
-    {% for atom in r %}
-        <div class="card-deck">
-            {% for entry in atom %}
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ entry.name }}</h5>
-                        <p class="card-text"> {{  entry.description }} </p>
-                        <p class="card-text"> For goal: {{  entry.goal.name }} </p>
-                        {{ dump(entry.count) }}
-                        {% for i in range(0,entry.count-1) %}
-                            <p class="card-text"> For date: {{ entry.getRecurrenceCollection[i] |date('Y-m-d')}}
-                            {% if entry.done[i] == 1 %}
-                                is done ✅
-                            {% else %}
-                                is not done ❌
-                            {% endif %}
-                            </p>
-                        {% endfor %}
-                        <a href="{{ path('edit_habit', {'id': entry.getId}) }}"><button class="btn btn-primary" >Edit Habit</button></a>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">Last updated 3 mins ago</small>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-        <br>
-    {% endfor %}
-{#    <a href="{{ path('add_habit') }}"><button class="btn btn-success" >Add Habit</button></a>#}
-
 {%  endblock %}
 
 {% block javascripts %}
@@ -141,20 +82,24 @@
                 if(!checkNested(dateObject, idx)){
                     dateObject[idx] = {};
                 }
+                var count = 0;
                 item.forEach((date) =>{
                     var d = new Date(date.date);
                     // console.log(d);
                     // console.log(checkNested(dateObject, idx, d.getFullYear().toString(), d.getMonth().toString()));
                     if(!checkNested(dateObject, idx, d.getFullYear().toString())){
-                        //Year does not exist
+                        //Year does not exist so create dict
                         dateObject[idx][d.getFullYear().toString()] = {};
                     }
                     if(!checkNested(dateObject, idx, d.getFullYear().toString(), d.getMonth().toString())){
+                        //Month does not exist so create array
                         // console.log("false");
                         // console.log(d.getMonth().toString());
-                        dateObject[idx][d.getFullYear().toString()][d.getMonth().toString()] = []
+                        dateObject[idx][d.getFullYear().toString()][d.getMonth().toString()] = [];
                     }
-                    dateObject[idx][d.getFullYear().toString()][d.getMonth().toString()].push(d);
+                    dateObject[idx][d.getFullYear().toString()][d.getMonth().toString()].push(d); //TODO! add the actual reccurence[0] or [1] so that when updating it's easier.
+                    dateObject[idx][d.getFullYear().toString()][d.getMonth().toString()].push(count);
+                    count++;
                     // console.log(dateObject);
                 });
                 // console.log(new Date(item))
@@ -167,28 +112,31 @@
             // console.log(today.getTime());
             showHabits(currentMonth, currentYear);
 
-            var test = {level1:{level2:{level3:'level3'}} };
-
-            console.log(checkNested(test, 'level1', 'level2', 'level3')); // true
-            console.log(checkNested(test, 'level1', 'level2', 'foo')); // false
+            // var test = {level1:{level2:{level3:'level3'}} };
+            //
+            // console.log(checkNested(test, 'level1', 'level2', 'level3')); // true
+            // console.log(checkNested(test, 'level1', 'level2', 'foo')); // false
         });
 
         function next() {
             currentYear = (currentMonth === 11) ? currentYear + 1 : currentYear;
             currentMonth = (currentMonth + 1) % 12;
             showCalendar(currentMonth, currentYear);
+            showHabits(currentMonth, currentYear);
         }
 
         function previous() {
             currentYear = (currentMonth === 0) ? currentYear - 1 : currentYear;
             currentMonth = (currentMonth === 0) ? 11 : currentMonth - 1;
-            showCalendar(currentMonth, currentYear);
+            showCalendar(currentMonth, currentYear)
+            showHabits(currentMonth, currentYear);
         }
 
         function jump() {
             currentYear = parseInt(selectYear.value);
             currentMonth = parseInt(selectMonth.value);
             showCalendar(currentMonth, currentYear);
+            showHabits(currentMonth, currentYear);
         }
         function showCalendar(month, year) {
             let numOfDays = daysInMonth(month, year);
@@ -196,7 +144,8 @@
             tbl = $('#mytableheader'); //  document.getElementById("calendar-body"); // body of the calendar]
 
             var prevDates = document.getElementById("mytableheader");   // Get the element with id="mytableheader"
-            prevDates.removeChild(prevDates.childNodes[0]);
+            // prevDates.removeChild(prevDates.childNodes[0]);
+            prevDates.innerText = "";
 
             $('#monthAndYear').text(months[month] + " " + year);
 
@@ -232,18 +181,26 @@
         function showHabits(month, year){
             let numOfDays = daysInMonth(month, year);
             tbl = $('#mytablecontent');
+
+            var prevHabits = document.getElementById("mytablecontent");   // Get the element with id="mytableheader"
+
+            prevHabits.innerText = "";
+
             let row = document.createElement("tr");
             cell = document.createElement("td");
-
+            console.log("dateObject is", dateObject);
             for (var key in dateObject) { //Loop through each habit
                 if(!dateObject.hasOwnProperty(key)) continue;
 
                 var obj = dateObject[key];
+                console.log("specific dateObject is", dateObject[key]);
                 // console.log(habits[key].name);
-                cell = document.createElement("td");
+                cell = document.createElement("th");
                 cellText = document.createTextNode(habits[key].name);
 
                 cell.appendChild(cellText);
+                cell.id = habits[key].id;
+                cell.classList.add("nr");
                 row.appendChild(cell);
 
                 var dateExists = {};
@@ -253,39 +210,70 @@
                 // console.log("object is", obj);
 
                 if(checkNested(obj, currentYear, currentMonth)){ //Check if currentYear and currentMonth is a key
-                    obj[currentYear][currentMonth].forEach((date, idx) => {
-                        dateExists[date.getDate()] = idx;
-                        // console.log("test test", date); //Works!
-                        // cell = document.createElement("th");
-                        // cellText = document.createTextNode(date.getDate().toString());
-                        // cell.appendChild(cellText);
-                        // row.appendChild(cell);
-                    });
+                    console.log(obj[currentYear][currentMonth]);
+
+                    var counter = 0;
+                    var currArray = obj[currentYear][currentMonth]
+                    while(counter < currArray.length){
+                        if(counter%2 == 1){
+                            counter++;
+                            continue;
+                        }
+                        dateExists[currArray[counter].getDate()] = currArray[counter+1];
+                        counter++;
+                    }
+
+                    // var dateAndIndexToggle = 1
+                    //
+                    // obj[currentYear][currentMonth].forEach((date, idx) => {
+                    //     if(dateAndIndexToggle%2 == 0){
+                    //         continue;
+                    //     }
+                    //     dateExists[date.getDate()] = idx;
+                    //     console.log("test test", date); //Works!
+                    //     // cell = document.createElement("th");
+                    //     // cellText = document.createTextNode(date.getDate().toString());
+                    //     // cell.appendChild(cellText);
+                    //     // row.appendChild(cell);
+                    //     dateAndIndexToggle++;
+                    // });
                     console.log(dateExists);
                     console.log(numOfDays);
+                    console.log("habits[key].done", habits[key].done);
                     // console.log("test");
                     // for(var i = 0; i < numOfDays; i++){
                     //     console.log(i);
                     // }
                     for (let j = 0; j < numOfDays; j++) {
-                        console.log("test");
+                        // console.log("test");
                         cell = document.createElement("td");
                         cellText = document.createTextNode("");
-                        if (dateExists.hasOwnProperty(j)) {
-                            if(habits[key].done[dateExists[j]]){
-                                cellText = document.createTextNode("✅");
+                        var btn = document.createElement('input');
+                        btn.type = "button";
+                        btn.className = "btn";
+                        // btn.value = entry.email;
+                        if (dateExists.hasOwnProperty(j+1)) {
+                            btn.setAttribute("id", dateExists[j+1]);
+                            if(habits[key].done[dateExists[j+1]]){
+                                btn.value = "✅";
+                                btn.className = "btn real true";
+                                // cellText = document.createTextNode("✅");
                             }
                             else{
-                                cellText = document.createTextNode("❌");
+                                btn.value = "❌";
+                                btn.className = "btn real false";
+                                // cellText = document.createTextNode("❌");
                             }
+                            // btn.setAttribute("id", dateExists[j]); //WHY TF DIS AINT WORKING?!?!?@
                             // cell.classList.add("bg-info");
                         } // color today's date
-                        else{
-                            cell.classList.add("bg-secondary");
-                        }
-                        cell.appendChild(cellText);
+                        // else{
+                        //     cell.classList.add("bg-secondary");
+                        // }
+                        // cell.appendChild(cellText);
+                        cell.appendChild(btn);
                         row.appendChild(cell);
-                        console.log(row);
+                        // console.log(row);
                     }
 
                 }
@@ -306,6 +294,130 @@
             if (rest.length == 0 && obj.hasOwnProperty(level)) return true
             return checkNested(obj[level], ...rest)
         }
+
+        function toggleHalfMonth() {
+            return 0;
+        };
+
+        $(document).ready(function() {
+            $('table').on('click', 'td', function(e) {
+                if(!$(e.target).hasClass('real')){
+                    return;
+                }
+                var row = $(this).closest("tr");
+                var habitID = row.find(".nr").attr('id');
+                var bool = 1;
+                var recurrenceID = e.target.id;
+                // if($(e.target).hasClass("real")){
+                //     recurrenceID = e.target.id;
+                // }
+                if($(e.target).hasClass("true")){
+                    bool = 0;
+                }
+                var recurrenceDate = this.cellIndex;
+
+                console.log("HabitID is", habitID);
+                console.log("recurrenceDate is", recurrenceDate);
+                console.log("Bool is", bool);
+                console.log("recurrenceID is", recurrenceID);
+
+                $.ajax({
+                    url:'{{ (path('post_tracker')) }}',
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        "habit_id": habitID,
+                        "recurrence_id": recurrenceID,
+                        "bool": bool
+                    },
+                    async: true,
+                    success: function (data)
+                    {
+                        if(bool){
+                            e.target.value = "✅";
+                            e.target.classList.remove("false");
+                            e.target.classList.add("true");
+                            //     btn.value = "✅";
+                            // btn.className = "btn real true";
+                        }
+                        else{
+                            e.target.value = "❌";
+                            e.target.classList.remove("true");
+                            e.target.classList.add("false");
+                        }
+
+                        console.log(data);
+                        $('div#ajax-results').html(data.output);
+                    }
+                });
+
+                // alert([$(day).text(), $(time).text()]);
+            });
+        });
+            {#$('td').click(function(e) {#}
+            {#    console.log("clicked!");#}
+            {#    console.log(e);#}
+            {#    console.log(e.target);#}
+            {#    console.log(e.target.cellIndex);#}
+            {#    var row = $(this).closest("tr");    // Find the row#}
+            {#    var habitID = row.find(".nr").attr('id'); //Need HabitID, Recurrence date (int), true/false.#}
+            {#    var bool = false;#}
+            //     if($(this).hasClass("true")){
+            //         bool = true;
+            //     }
+
+            {#    console.log(habitID);#}
+            {#    console.log(row);#}
+            {#    console.log(that);#}
+
+
+            {#    console.log("bool is", bool);#}
+            {#    // var bool = $(this).hasClass()#}
+            {#    console.log("row index", row.cellIndex);#}
+            {#    // console.log()#}
+            {#    // var dateInt = //Must find way to get header?#}
+            {#    // var bool = row.#}
+
+            {#    var text = row.find(".nr").text();#}
+
+                {#$.ajax({#}
+                {#    url:'{{ (path('post_tracker')) }}',#}
+                {#    type: "POST",#}
+                {#    dataType: "json",#}
+                {#    data: {#}
+                {#        "some_var_name": "some_var_value"#}
+                {#    },#}
+                {#    async: true,#}
+                {#    success: function (data)#}
+                {#    {#}
+                {#        console.log(data);#}
+                {#        $('div#ajax-results').html(data.output);#}
+                {#    }#}
+                {#});#}
+        //         return false;
+        //     });
+        // });
+        // $(document).on('click', 'button.ajax', function(){
+        //     console.log("clicked!");
+            {#that = $(this);#}
+            {#$.ajax({#}
+            {#    url:'{{ (path('app_bundle_route')) }}',#}
+            {#    type: "POST",#}
+            {#    dataType: "json",#}
+            {#    data: {#}
+            {#        "some_var_name": "some_var_value"#}
+            {#    },#}
+            {#    async: true,#}
+            {#    success: function (data)#}
+            {#    {#}
+            {#        console.log(data)#}
+            {#        $('div#ajax-results').html(data.output);#}
+
+            {#    }#}
+            {#});#}
+            {#return false;#}
+
+        // });
 
     </script>
 {% endblock %}

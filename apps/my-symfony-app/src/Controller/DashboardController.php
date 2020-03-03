@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use function Sodium\add;
 
 /**
@@ -435,6 +436,68 @@ class DashboardController extends AbstractController
             'recurrenceResult' => $recurrenceResult
         ]);
     }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse|\Symfony\Component\HttpFoundation\Response
+     * @Route("/tracker/post", name="post_tracker")
+     */
+    public function indexAction(Request $request)
+    {
+        if($request->isXmlHttpRequest()){
+            $habit_id = $request->request->get('habit_id');
+            $recurrence_id = $request->request->get('recurrence_id');
+            $bool = $request->request->get('bool');
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $habit = $entityManager->getRepository(Habit::class)->find($habit_id);
+            if (!$habit) {
+                throw $this->createNotFoundException(
+                    'No habit found for id '.$habit_id
+                );
+            }
+            $habit->setSpecificDone($recurrence_id, $bool);
+            $entityManager->flush();
+//            var_dump($habit_id);
+//            var_dump($recurrence_id);
+//            var_dump($bool);
+//            $str = $habit_id + " " + $recurrence_id + " "
+            //make something curious, get some unbelieveable data
+//            $str = strval($request->request->get('habit_id')) . $request->request->get('recurrence_id') . $request->request->get('bool');
+            $str = "habit id is " . $habit_id . " recurrence id is " . $recurrence_id . " bool is " . $bool;
+            $arrData = ['output' => $str];
+            return new JsonResponse($arrData);
+        }
+
+        return $this->render('dashboard/display_tracker.html.twig');
+    }
+
+//    /**
+//     * @param Request $request
+//     * @return JsonResponse|\Symfony\Component\HttpFoundation\Response
+//     * @Route("/tracker/post", name="post_tracker")
+//     */
+//    public function indexAction(Request $request)
+//    {
+//
+////        if($request->request->get('habit_id') &&
+////            $request->request->get('recurrence_id') &&
+////                $request->request->get('bool')){
+//        $habit_id = $request->request->get('habit_id');
+//        $recurrence_id = $request->request->get('recurrence_id');
+//        $bool = $request->request->get('bool');
+//        var_dump($habit_id);
+//        var_dump($recurrence_id);
+//        var_dump($bool);
+//        $str = strval($habit_id) . " habit id " . strval($recurrence_id) . " recurrence id " . strval($bool) . " bool ";
+////            $str = echo('{$habit_id} habit id {$recurrence_id} recurrence id {$bool} bool');
+//        //make something curious, get some unbelieveable data
+//        $arrData = ['output' => $str];
+//        return new JsonResponse($arrData);
+////        }
+//
+//        return $this->render('dashboard/display_tracker.html.twig');
+//    }
 
 
 }
