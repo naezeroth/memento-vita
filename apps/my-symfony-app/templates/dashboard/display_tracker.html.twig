@@ -2,24 +2,26 @@
 
 {%  block main %}
     <div id="ajax-results"></div>
-    <h3 class="card-header" id="monthAndYear"></h3>
-{#        <button onclick="CreateTable()">Extend</button>#}
-    <button class="btn btn-outline-primary col-sm-6" id="previous" onclick="toggleHalfMonth()">Toggle Month</button>
-    <table class="table">
-        <thead id="mytableheader">
-{#            Will have HABIT, and all dates of that month#}
-        </thead>
-        <tbody id="mytablecontent">
-{#            Will have HABIT NAME and then ticks/crosses for each recurrence date#}
-        </tbody>
-    </table>
-
-    <div class="form-inline">
-        <button class="btn btn-outline-primary col-sm-6" id="previous" onclick="previous()">Previous</button>
-        <button class="btn btn-outline-primary col-sm-6" id="next" onclick="next()">Next</button>
+    <div class="card-header">
+        <h3 id="monthAndYear"></h3>
+        <button class="btn btn-outline-primary table-inline" id="previous" onclick="previous()">Previous</button>
+        <button class="btn btn-outline-primary table-inline" id="next" onclick="next()">Next</button>
     </div>
-    <br/>
 
+{#        <button onclick="CreateTable()">Extend</button>#}
+{#    <button class="btn btn-outline-primary col-sm-6" id="previous" onclick="toggleHalfMonth()">Toggle Month</button>#}
+
+    <div id="table-scroll" class="table-scroll">
+        <table id="main-table" class="table">
+            <thead id="mytableheader">
+    {#            Will have HABIT, and all dates of that month#}
+            </thead>
+            <tbody id="mytablecontent">
+    {#            Will have HABIT NAME and then ticks/crosses for each recurrence date#}
+            </tbody>
+        </table>
+    </div>
+    <br>
     <form class="form-inline">
         <label class="lead mr-2 ml-2" for="month">Jump To: </label>
         <select class="form-control col-sm-4" name="month" id="month" onchange="jump()">
@@ -168,7 +170,7 @@
                 cell = document.createElement("th");
                 cellText = document.createTextNode(date);
                 if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
-                    cell.classList.add("bg-info");
+                    cell.classList.add("current-date");
                 } // color today's date
                 cell.appendChild(cellText);
                 row.appendChild(cell);
