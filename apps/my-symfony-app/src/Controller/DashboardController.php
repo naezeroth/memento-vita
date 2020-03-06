@@ -303,8 +303,6 @@ class DashboardController extends AbstractController
             dump($entity->getRecurrenceCollection());
             $em = $this->getDoctrine()->getManager();
             $entity->setUserBelongsTo($security->getUser());
-//            $entity->setDateStart(new \DateTime("now"));
-//            $entity->setGoal($goal);f
 
             dump($entity);
             $entity->getDone();
@@ -314,7 +312,7 @@ class DashboardController extends AbstractController
             $em->flush();
             $message = "Submitted your habit: " . strtolower($entity->getName());
             $this->addFlash('success', $message);
-//            return $this->redirectToRoute('dashboard');
+            return $this->redirectToRoute('show_habits');
         }
 
         return $this->render('dashboard/habit_add.html.twig', [
