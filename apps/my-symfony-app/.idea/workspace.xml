@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62d4df3a-3b26-40e9-ae93-bebdcca9104b" name="Default Changelist" comment="" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,7 +21,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -136,32 +135,28 @@
     </include_path>
   </component>
   <component name="ProjectId" id="1PAUpR3NbZtDxTGJl9I5aUojhwz" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/templates/contact" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/templates/dashboard" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+    <property name="settings.editor.selected.configurable" value="terminal" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Apurva\nomoss-goal-tracker\src\Controller\Dashboard" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Apurva\memento-vita\apps\my-symfony-app\templates\dashboard" />
       <recent name="C:\Users\Apurva\nomoss-goal-tracker\templates\contact" />
     </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -179,6 +174,16 @@
       <workItem from="1567120412232" duration="28278000" />
       <workItem from="1567296549280" duration="9006000" />
       <workItem from="1567467627789" duration="28534000" />
+      <workItem from="1580855939722" duration="10456000" />
+      <workItem from="1580963733785" duration="25293000" />
+      <workItem from="1581485874760" duration="6122000" />
+      <workItem from="1581580659293" duration="15000" />
+      <workItem from="1581580709829" duration="6673000" />
+      <workItem from="1581638813645" duration="4569000" />
+      <workItem from="1581752065941" duration="8669000" />
+      <workItem from="1581963796375" duration="5650000" />
+      <workItem from="1583221668097" duration="6673000" />
+      <workItem from="1583484937506" duration="1917000" />
     </task>
     <servers />
   </component>
@@ -197,6 +202,24 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="179" y="185" key="SettingsEditor" timestamp="1581581045165">
+      <screen x="0" y="0" width="1500" height="960" />
+    </state>
+    <state x="179" y="185" key="SettingsEditor/0.0.1500.960@0.0.1500.960" timestamp="1581581045165" />
+    <state x="451" y="306" key="com.intellij.ide.util.TipDialog" timestamp="1583485041382">
+      <screen x="0" y="0" width="1500" height="960" />
+    </state>
+    <state x="451" y="306" key="com.intellij.ide.util.TipDialog/0.0.1500.960@0.0.1500.960" timestamp="1583485041382" />
+    <state x="443" y="77" width="613" height="804" key="find.popup" timestamp="1583486283917">
+      <screen x="0" y="0" width="1500" height="960" />
+    </state>
+    <state x="443" y="77" width="613" height="804" key="find.popup/0.0.1500.960@0.0.1500.960" timestamp="1583486283917" />
+    <state x="419" y="232" key="run.anything.popup" timestamp="1583221871390">
+      <screen x="0" y="0" width="1500" height="960" />
+    </state>
+    <state x="419" y="232" key="run.anything.popup/0.0.1500.960@0.0.1500.960" timestamp="1583221871390" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

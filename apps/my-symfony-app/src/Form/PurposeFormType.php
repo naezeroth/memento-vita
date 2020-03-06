@@ -17,7 +17,7 @@ class PurposeFormType extends AbstractType
     {
         $builder
             ->add('description', TextType::class, [
-                'label' => 'Enter your purpose here'
+                'label' => 'What unfinishable reason drives you toward greater human endeavour?'
             ])
             ->add('active', CheckboxType::class, [
                 'label' => 'Is this an active purpose?',

@@ -24,3 +24,9 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+
+# exclude everything
+my-datavolume/*
+#
+# # exception to the rule
+!my-datavolume/.gitkeep 

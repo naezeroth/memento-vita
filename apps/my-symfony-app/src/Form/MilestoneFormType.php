@@ -18,7 +18,8 @@ class MilestoneFormType extends AbstractType
                 'label' => 'Metric you wish to achieve'
             ])
             ->add('endDate', DateType::class,[
-                'label' => 'Date you wish to achieve this by'
+                'label' => 'Date you wish to achieve this by',
+                'years' => range(date("Y"), date("Y")+10)
             ])
         ;
     }

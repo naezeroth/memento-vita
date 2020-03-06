@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_1.html.twig' %}
 
 {%  block main %}
 
@@ -80,6 +80,7 @@
 
             // Display the form in the page in an li, before the "Add a milestone" link li
             var $newFormLi = $('<li></li>').append(newForm);
+            console.log($newFormLi);
             addMilestoneFormDeleteLink($newFormLi);
             $newLinkLi.before($newFormLi);
         }

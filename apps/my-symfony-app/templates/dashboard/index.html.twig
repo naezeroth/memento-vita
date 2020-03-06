@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_1.html.twig' %}
 
 {% block title %}Hello DashboardController!{% endblock %}
 
@@ -8,61 +8,103 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div class="example-wrapper">
+{#<div class="example-wrapper">#}
     <h1>Hello {{ name }}! ✅</h1>
-</div>
-
-    <div class="example-wrapper">
-        <a href="{{ path('add_purpose') }}">Add Purpose</a>
-    </div>
-
-    <div class="example-wrapper">
-        <a href="{{ path('show_purpose') }}">Show Purpose</a>
-    </div>
-
-    <div class="example-wrapper">
-        <a href="{{ path('show_goals') }}">Show your Goals</a>
-    </div>
-
-    <div class="example-wrapper">
-        <a href="{{ path('view_public') }}">Show Everyone's Goals</a>
-    </div>
+    <br>
+{#</div>#}
 
 {#    <div class="example-wrapper">#}
-{#        {{ form_start(purposeForm) }}#}
-{#        {{ form_label(purposeForm.description, 'Enter your purpose here', {'label_attr': {'class':'foo'}}) }}#}
-{#        {{  form_widget(purposeForm) }}#}
-{#        {{ form_widget(purposeForm.description, {'attr': {'class': 'description'}}) }}#}
-{#        <div class="form-group row">#}
-{#            <div class="col-sm-2"></div>#}
-{#            <div class="col-sm-10">#}
-{#                <input type="submit" value="Send" class="btn btn-success"/>#}
-{#            </div>#}
-{#        </div>#}
-{#        {{ form_end(purposeForm) }}#}
+{#        <a href="{{ path('add_purpose') }}">Add Purpose</a>#}
 {#    </div>#}
 
-{#    <table>#}
-{#        <tr>#}
-{#            <th>id</th><th>Purpose</th>#}
-{#        </tr>#}
-{#        {% if results|length > 0%}#}
-{#            {% for item in results %}#}
-{#                <tr>#}
-{#                    <td>{{ item.getId }}</td><td>{{ item.getDescription }}</td>#}
-{#                </tr>#}
-{#            {% endfor %}#}
-{#        {% else %}#}
-{#            <tr>#}
-{#                <td colspan="2">No matching results found!</td>#}
-{#            </tr>#}
-{#        {% endif %}#}
-{#    </table>#}
+{#    <div class="example-wrapper">#}
+{#        <a href="{{ path('show_purpose') }}">Show Purpose</a>#}
+{#    </div>#}
 
+{#    <div class="example-wrapper">#}
+{#        <a href="{{ path('show_goals') }}">Show your Goals</a>#}
+{#    </div>#}
 
-{#    {{ include('dashboard/display_purpose.html.twig') }}#}
+{#    <div class="example-wrapper">#}
+{#        <a href="{{ path('view_public') }}">Show Everyone's Goals</a>#}
+{#    </div>#}
 
+{#        <nav class="navbar navbar-expand-lg navbar-light bg-light">#}
+{#            <div class="container-fluid">#}
+
+{#                <button type="button" id="sidebarCollapse" class="btn btn-info">#}
+{#                    <i class="fas fa-align-left"></i>#}
+{#                    <span>Toggle Sidebar</span>#}
+{#                </button>#}
+
+{#            </div>#}
+{#        </nav>#}
+    {# Group entries using the `batch` filter #}
+    {% if purpose != null %}
+    <h2>My Purpose is</h2>
+    <div class="card-deck" id="purpose-dashboard">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ purpose.description }}</h5>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted">Last updated 3 mins ago</small>
+            </div>
+        </div>
+    </div>
+    <br>
+    {% else %}
+    <h2>You don't have a purpose. Please add it!</h2>
+        <a href="{{ path('add_purpose') }}"><button class="btn btn-success">Add here!</button><a>
+        <br>
+                <br>
+
+    {% endif %}
+
+    <h2>Your Goals</h2>
+    <br>
+    {% set r = results|batch(3) %}
+{#    {{ dump(r) }}#}
+
+    {% for atom in r %}
+
+        {# Set class using the loop index from outer loop #}
+        {% set panelClass = 'panel--' ~ loop.index %}
+
+{#        <div class="panel {{ panelClass }}">#}
+        <div class="card-deck">
+            {% for entry in atom %}
+                <div class="card">
+{#                    <img src="https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg" class="card-img-top" alt="...">#}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ entry.name }}</h5>
+                        <p class="card-text"> {{  entry.description }} </p>
+{#                        <p class="card-text"> {{  entry.purpose.description }} </p>#}
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">Last updated 3 mins ago</small>
+{#                        <small class="text-muted">Last updated {{ entry.startDate }}</small>#}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <br>
+{#        </div#}
+
+    {% endfor %}
 {% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar, #content').toggleClass('active');
+                $('.collapse.in').toggleClass('in');
+                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            });
+        });
+    </script>
+{% endblock %}
 {#{% block display %} {% endblock %}#}
 
