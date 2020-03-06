@@ -9,6 +9,7 @@ use App\Repository\GoalRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -30,6 +31,11 @@ class HabitFormType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
+            ->add('dateStart', DateType::class, [
+                'label' => 'Select your start date',
+                'years' => range(date("Y"), date("Y")+1)
+//                'empty_data' => new \DateTime("now")
+            ])
             ->add('freq', ChoiceType::class, [
                 'choices'  => [
                     'Daily' => 0,

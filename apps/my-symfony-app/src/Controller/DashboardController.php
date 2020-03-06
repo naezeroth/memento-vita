@@ -294,6 +294,7 @@ class DashboardController extends AbstractController
     public function addHabit(Request $request, Security $security){
 
         $entity = new Habit();
+        $entity->setDateStart(new \DateTime('now'));
 
         $habitForm = $this->createForm(HabitFormType::class, $entity);
         $habitForm->handleRequest($request);
@@ -302,8 +303,8 @@ class DashboardController extends AbstractController
             dump($entity->getRecurrenceCollection());
             $em = $this->getDoctrine()->getManager();
             $entity->setUserBelongsTo($security->getUser());
-            $entity->setDateStart(new \DateTime("now"));
-//            $entity->setGoal($goal);
+//            $entity->setDateStart(new \DateTime("now"));
+//            $entity->setGoal($goal);f
 
             dump($entity);
             $entity->getDone();

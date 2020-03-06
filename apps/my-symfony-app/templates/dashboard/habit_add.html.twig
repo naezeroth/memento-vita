@@ -6,10 +6,12 @@
         {{ form_start(habitForm) }}
         {{ form_row(habitForm.name) }}
         {{ form_row(habitForm.description) }}
+        {{ form_row(habitForm.dateStart) }}
         {{ form_row(habitForm.freq) }}
         {{ form_row(habitForm.interval) }}
         {{ form_row(habitForm.count) }}
 {#        {{ form_row(habitForm.recurrence) }}#}
+        {{ form_row(habitForm.goal) }}
 {#        {{ form_row(goalForm.public) }}#}
 {#        <h3>Add a milestone metric for your goal</h3>#}
 {#        <ul class="milestones" data-prototype="{{ form_widget(goalForm.milestones.vars.prototype)|e('html_attr') }}">#}
