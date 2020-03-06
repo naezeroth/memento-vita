@@ -197,13 +197,7 @@
                 var obj = dateObject[key];
                 console.log("specific dateObject is", dateObject[key]);
                 // console.log(habits[key].name);
-                cell = document.createElement("th");
-                cellText = document.createTextNode(habits[key].name);
 
-                cell.appendChild(cellText);
-                cell.id = habits[key].id;
-                cell.classList.add("nr");
-                row.appendChild(cell);
 
                 var dateExists = {};
 
@@ -213,7 +207,13 @@
 
                 if(checkNested(obj, currentYear, currentMonth)){ //Check if currentYear and currentMonth is a key
                     console.log(obj[currentYear][currentMonth]);
+                    cell = document.createElement("th");
+                    cellText = document.createTextNode(habits[key].name);
 
+                    cell.appendChild(cellText);
+                    cell.id = habits[key].id;
+                    cell.classList.add("nr");
+                    row.appendChild(cell);
                     var counter = 0;
                     var currArray = obj[currentYear][currentMonth]
                     while(counter < currArray.length){

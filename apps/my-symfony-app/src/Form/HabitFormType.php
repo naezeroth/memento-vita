@@ -34,7 +34,6 @@ class HabitFormType extends AbstractType
             ->add('dateStart', DateType::class, [
                 'label' => 'Select your start date',
                 'years' => range(date("Y"), date("Y")+1)
-//                'empty_data' => new \DateTime("now")
             ])
             ->add('freq', ChoiceType::class, [
                 'choices'  => [
