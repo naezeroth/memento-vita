@@ -11,6 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MilestoneFormType extends AbstractType
 {
+    
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -19,7 +20,8 @@ class MilestoneFormType extends AbstractType
             ])
             ->add('endDate', DateType::class,[
                 'label' => 'Date you wish to achieve this by',
-                'years' => range(date("Y"), date("Y")+10)
+                'years' => range(date("Y"), date("Y")+10),
+                'data' => new \DateTime("now")
             ])
         ;
     }
