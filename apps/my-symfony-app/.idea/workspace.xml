@@ -199,6 +199,9 @@
       <workItem from="1583221668097" duration="6673000" />
       <workItem from="1583484937506" duration="1917000" />
       <workItem from="1583528171048" duration="908000" />
+      <workItem from="1583907308706" duration="42000" />
+      <workItem from="1583907487153" duration="4706000" />
+      <workItem from="1584169016814" duration="2453000" />
     </task>
     <servers />
   </component>
@@ -223,14 +226,18 @@
       <screen x="0" y="0" width="1500" height="960" />
     </state>
     <state x="179" y="185" key="SettingsEditor/0.0.1500.960@0.0.1500.960" timestamp="1581581045165" />
-    <state x="451" y="306" key="com.intellij.ide.util.TipDialog" timestamp="1583485041382">
+    <state x="451" y="306" key="com.intellij.ide.util.TipDialog" timestamp="1585491864907">
       <screen x="0" y="0" width="1500" height="960" />
     </state>
-    <state x="451" y="306" key="com.intellij.ide.util.TipDialog/0.0.1500.960@0.0.1500.960" timestamp="1583485041382" />
-    <state x="443" y="77" width="613" height="804" key="find.popup" timestamp="1583486283917">
+    <state x="451" y="306" key="com.intellij.ide.util.TipDialog/0.0.1500.960@0.0.1500.960" timestamp="1585491864907" />
+    <state x="558" y="398" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1583912251785">
       <screen x="0" y="0" width="1500" height="960" />
     </state>
-    <state x="443" y="77" width="613" height="804" key="find.popup/0.0.1500.960@0.0.1500.960" timestamp="1583486283917" />
+    <state x="558" y="398" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1500.960@0.0.1500.960" timestamp="1583912251785" />
+    <state x="443" y="77" width="613" height="804" key="find.popup" timestamp="1584169573591">
+      <screen x="0" y="0" width="1500" height="960" />
+    </state>
+    <state x="443" y="77" width="613" height="804" key="find.popup/0.0.1500.960@0.0.1500.960" timestamp="1584169573591" />
     <state x="420" y="233" key="run.anything.popup" timestamp="1583545521535">
       <screen x="0" y="0" width="1500" height="960" />
     </state>

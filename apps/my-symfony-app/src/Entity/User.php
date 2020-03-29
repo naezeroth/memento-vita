@@ -52,11 +52,17 @@ class User implements UserInterface
      */
     private $habits;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Goal", mappedBy="usersAssociatedTo")
+     */
+    private $sharedGoals;
+
     public function __construct()
     {
         $this->goals = new ArrayCollection();
         $this->purposes = new ArrayCollection();
         $this->habits = new ArrayCollection();
+        $this->sharedGoals = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -220,6 +226,34 @@ class User implements UserInterface
             if ($habit->getUserBelongsTo() === $this) {
                 $habit->setUserBelongsTo(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Goal[]
+     */
+    public function getSharedGoals(): Collection
+    {
+        return $this->sharedGoals;
+    }
+
+    public function addSharedGoal(Goal $sharedGoal): self
+    {
+        if (!$this->sharedGoals->contains($sharedGoal)) {
+            $this->sharedGoals[] = $sharedGoal;
+            $sharedGoal->addUsersAssociatedTo($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSharedGoal(Goal $sharedGoal): self
+    {
+        if ($this->sharedGoals->contains($sharedGoal)) {
+            $this->sharedGoals->removeElement($sharedGoal);
+            $sharedGoal->removeUsersAssociatedTo($this);
         }
 
         return $this;

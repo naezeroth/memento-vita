@@ -6,6 +6,7 @@ use App\Entity\Goal;
 use App\Entity\Habit;
 use App\Entity\Milestone;
 use App\Entity\Purpose;
+use App\Entity\User;
 use App\Form\GoalFormType;
 use App\Form\HabitFormType;
 use App\Form\PurposeFormType;
@@ -236,11 +237,17 @@ class DashboardController extends AbstractController
      * @Route("/viewPublic", name="view_public")
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function viewPublicGoals(Request $request){
+    public function viewPublicGoals(Request $request, Security $security){
 
         $em = $this->getDoctrine()->getManager();
+//        dump(1+1);
 
-        $tempResult = $em->getRepository(Goal::class)->findBy(array('public' => true)); //Can refactor to the repository and just call function from there.
+//        $tempResult = $em->getRepository(Goal::class)->findBy(array('public' => true)); //Can refactor to the repository and just call function from there.
+
+
+        $tempResult = $security->getUser()->getSharedGoals();
+//        var_dump($tempResult1);
+//        dump($tempResult);
         $result = array();
         foreach($tempResult as $r){
             if($r->getPurpose()->getActive()){ //Violation of Law of Demeter (refactor required)

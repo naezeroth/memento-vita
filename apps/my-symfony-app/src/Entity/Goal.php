@@ -65,10 +65,16 @@ class Goal
      */
     protected $milestones;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="sharedGoals")
+     */
+    private $usersAssociatedTo;
+
     public function __construct()
     {
         $this->habits = new ArrayCollection();
         $this->milestones = new ArrayCollection();
+        $this->usersAssociatedTo = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -217,6 +223,32 @@ class Goal
             if ($milestone->getGoalBelongsTo() === $this) {
                 $milestone->setGoalBelongsTo(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsersAssociatedTo(): Collection
+    {
+        return $this->usersAssociatedTo;
+    }
+
+    public function addUsersAssociatedTo(User $usersAssociatedTo): self
+    {
+        if (!$this->usersAssociatedTo->contains($usersAssociatedTo)) {
+            $this->usersAssociatedTo[] = $usersAssociatedTo;
+        }
+
+        return $this;
+    }
+
+    public function removeUsersAssociatedTo(User $usersAssociatedTo): self
+    {
+        if ($this->usersAssociatedTo->contains($usersAssociatedTo)) {
+            $this->usersAssociatedTo->removeElement($usersAssociatedTo);
         }
 
         return $this;

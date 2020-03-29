@@ -1,7 +1,8 @@
 {% extends 'base_1.html.twig' %}
 
 {%  block main %}
-{#    {{ dump(results) }}#}
+    {{ dump(results) }}
+    {{ dump("TEST") }}
     <table>
 {#        <tr>#}
 {#            <th>User</th><th>Goal</th><th>Description</th>#}
@@ -27,7 +28,7 @@
         <h2>What others around you are focusing on</h2>
         <br>
         {% set r = results|batch(3) %}
-        {#    {{ dump(r) }}#}
+            {{ dump(r) }}
 
         {% for atom in r %}
 
