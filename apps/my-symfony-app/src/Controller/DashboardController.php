@@ -160,10 +160,9 @@ class DashboardController extends AbstractController
         $milestone->setEndDate(new \DateTime('now'));
         $milestone->setDescription('');
         $milestone->setGoalBelongsTo($entity);
-
 //        $entity->addMilestone($milestone);
 
-        $goalForm = $this->createForm(GoalFormType::class, $entity);
+        $goalForm = $this->createForm(GoalFormType::class, $entity, ['userID' => $security->getUser()->getUsername()]);
         $goalForm->handleRequest($request);
 
         if($goalForm->isSubmitted()) {
@@ -200,7 +199,7 @@ class DashboardController extends AbstractController
      */
     public function editGoal(Request $request, Security $security, Goal $goal){
 
-        $goalForm = $this->createForm(GoalFormType::class, $goal);
+        $goalForm = $this->createForm(GoalFormType::class, $goal, ['userID' => $security->getUser()->getUsername()]);
         $goalForm->handleRequest($request);
 
         $originalMilestones = new ArrayCollection();
@@ -240,29 +239,13 @@ class DashboardController extends AbstractController
     public function viewPublicGoals(Request $request, Security $security){
 
         $em = $this->getDoctrine()->getManager();
-//        dump(1+1);
-
-//        $tempResult = $em->getRepository(Goal::class)->findBy(array('public' => true)); //Can refactor to the repository and just call function from there.
-
-
         $tempResult = $security->getUser()->getSharedGoals();
-//        var_dump($tempResult1);
-//        dump($tempResult);
         $result = array();
         foreach($tempResult as $r){
             if($r->getPurpose()->getActive()){ //Violation of Law of Demeter (refactor required)
                 array_push($result, $r);
             }
         }
-//        dump($result);
-//        $object = (object) ['name' => array(), 'goal' => array()];
-//
-//        foreach($result as $r){
-//            $object->name = $r->getUserBelongsTo()->getUsername();
-//            $object->goal = $r->getName();
-//        }
-//
-//        dump($object);
 
         return $this->render('dashboard/view_public.html.twig', [
             'results' => $result
@@ -326,45 +309,6 @@ class DashboardController extends AbstractController
             'habitForm' => $habitForm->createView(),
         ]);
     }
-
-//    /**
-//     * @param Request $request
-//     * @param Security $security
-//     * @param Purpose $purpose
-//     * @return \Symfony\Component\HttpFoundation\Response
-//     * @Route("/{id}/addhabit/", name="add_habit")
-//     * @ParamConverter("Goal", class="App\Entity\Goal")
-//     * @throws \Exception
-//     */
-//    public function addHabit(Request $request, Security $security, Goal $goal = null){
-//
-//        $entity = new Habit();
-//
-//        $habitForm = $this->createForm(HabitFormType::class, $entity);
-//        $habitForm->handleRequest($request);
-//
-//        if($habitForm->isSubmitted()) {
-//            dump($entity->getRecurrenceCollection());
-//            $em = $this->getDoctrine()->getManager();
-//            $entity->setUserBelongsTo($security->getUser());
-//            $entity->setDateStart(new \DateTime("now"));
-////            $entity->setGoal($goal);
-//
-//            dump($entity);
-//            $entity->getDone();
-//            dump($entity);
-//
-//            $em->persist($entity);
-//            $em->flush();
-//            $message = "Submitted your habit: " . strtolower($entity->getName());
-//            $this->addFlash('success', $message);
-////            return $this->redirectToRoute('dashboard');
-//        }
-//
-//        return $this->render('dashboard/habit_add.html.twig', [
-//            'habitForm' => $habitForm->createView(),
-//        ]);
-//    }
 
     /**
      * @param Request $request
@@ -464,12 +408,6 @@ class DashboardController extends AbstractController
             }
             $habit->setSpecificDone($recurrence_id, $bool);
             $entityManager->flush();
-//            var_dump($habit_id);
-//            var_dump($recurrence_id);
-//            var_dump($bool);
-//            $str = $habit_id + " " + $recurrence_id + " "
-            //make something curious, get some unbelieveable data
-//            $str = strval($request->request->get('habit_id')) . $request->request->get('recurrence_id') . $request->request->get('bool');
             $str = "habit id is " . $habit_id . " recurrence id is " . $recurrence_id . " bool is " . $bool;
             $arrData = ['output' => $str];
             return new JsonResponse($arrData);
@@ -477,33 +415,6 @@ class DashboardController extends AbstractController
 
         return $this->render('dashboard/display_tracker.html.twig');
     }
-
-//    /**
-//     * @param Request $request
-//     * @return JsonResponse|\Symfony\Component\HttpFoundation\Response
-//     * @Route("/tracker/post", name="post_tracker")
-//     */
-//    public function indexAction(Request $request)
-//    {
-//
-////        if($request->request->get('habit_id') &&
-////            $request->request->get('recurrence_id') &&
-////                $request->request->get('bool')){
-//        $habit_id = $request->request->get('habit_id');
-//        $recurrence_id = $request->request->get('recurrence_id');
-//        $bool = $request->request->get('bool');
-//        var_dump($habit_id);
-//        var_dump($recurrence_id);
-//        var_dump($bool);
-//        $str = strval($habit_id) . " habit id " . strval($recurrence_id) . " recurrence id " . strval($bool) . " bool ";
-////            $str = echo('{$habit_id} habit id {$recurrence_id} recurrence id {$bool} bool');
-//        //make something curious, get some unbelieveable data
-//        $arrData = ['output' => $str];
-//        return new JsonResponse($arrData);
-////        }
-//
-//        return $this->render('dashboard/display_tracker.html.twig');
-//    }
 
 
 }

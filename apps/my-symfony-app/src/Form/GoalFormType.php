@@ -19,6 +19,7 @@ class GoalFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $test = $options['userID'];
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Name of your goal',
@@ -30,19 +31,19 @@ class GoalFormType extends AbstractType
                 'label' => 'When do you want to accomplish this by?',
                 'years' => range(date("Y"), date("Y")+10)
             ])
-//            ->add('public', CheckboxType::class, [
-//                'label' => 'Do you wish for this goal to be publicly viewable?',
-//                'required' => false
-//            ])
             ->add('usersAssociatedTo', EntityType::class, [
                 'class' => 'App\Entity\User',
-//                'query_builder' => function (EntityRepository $er) {
-//                    return $er->createQueryBuilder('u')
-//                        >orderBy('u.username', 'ASC');
-//                },
+                'query_builder' => function (EntityRepository $er) use ($options) {
+                    $qb = $er->createQueryBuilder('u');
+                    $expr = $qb->expr();
+                    $qb->where($expr->neq('u.username', '?1'));
+                    $qb->orderBy('u.username', 'ASC');
+                    $qb->setParameter(1, ($options['userID']));
+                    return $qb;
+                },
                 'choice_label' => 'username',
                 'label' => 'Select who you would like to share this with',
-//                'expanded' => 'true',
+//                'expanded' => 'true', //looks like checkboxes
                 'multiple' => 'true'
             ])
             ->add('milestones', CollectionType::class, [
@@ -63,6 +64,7 @@ class GoalFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Goal::class,
+            'userID' => -1
         ]);
     }
 }
